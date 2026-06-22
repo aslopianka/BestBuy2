@@ -77,7 +77,6 @@ class Product:
         """
         Sets the product status to inactive.
         """
-
         self.active = False
 
     def show(self):
@@ -94,4 +93,31 @@ class Product:
         if quantity > self.quantity:
             raise ValueError(f"Not enough quantity of {self.name} in stock.")
         self.set_quantity(self.quantity - quantity)
+        return self.price * quantity
+
+
+class NonStockProducts(Product):
+    def __init__(self, name, price):
+        """
+        Initializes a new NonStockProduct.
+        It inherits from Product but has a quantity of 0 and bypasses the 0quantity-active restriction.
+        """
+        super().__init__(name, price, quantity=0)
+        self.active = True
+
+    def activate(self):
+        """Bypasses the 0-quantity restriction to activate the product."""
+        self.active = True
+
+    def set_quantity(self, quantity):
+        """Prevents changing the quantity of a non-stock product."""
+        self.quantity = 0
+        self.active = True
+        raise(ValueError("Quantity cannot be changed for non-stock products."))
+
+    def buy(self, quantity):
+        """Only returns the price of the product. Does not reduce the quantity."""
+        if quantity <= 0:
+            raise ValueError("Purchase quantity must be greater than zero.")
+
         return self.price * quantity
