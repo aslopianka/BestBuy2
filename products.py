@@ -93,10 +93,11 @@ class Product:
         if quantity > self.quantity:
             raise ValueError(f"Not enough quantity of {self.name} in stock.")
         self.set_quantity(self.quantity - quantity)
+
         return self.price * quantity
 
 
-class NonStockProducts(Product):
+class NonStockedProduct(Product):
     def __init__(self, name, price):
         """
         Initializes a new NonStockProduct.
@@ -121,3 +122,32 @@ class NonStockProducts(Product):
             raise ValueError("Purchase quantity must be greater than zero.")
 
         return self.price * quantity
+
+    def show(self):
+        """Prints the product details."""
+        print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
+
+
+class LimitedProduct(Product):
+    def __init__(self, name, price, quantity, maximum):
+        """
+        Initializes a new LimitedProduct.
+        It inherits from Product but has a maximum variable.
+        """
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def buy(self, quantity):
+        """
+        Processes a purchase of the product.
+        Reduces quantity and returns the total price
+        but only allows the maximum amount per order.
+        """
+        if quantity > self.maximum:
+            raise ValueError("For this product the maximum number per order is 1.")
+
+        return super().buy(quantity)
+
+    def show(self):
+        """Prints the product details."""
+        print(f"{self.name}, Price: ${self.price}, Limited to only {self.maximum} per order!")
