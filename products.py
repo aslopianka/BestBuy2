@@ -34,6 +34,7 @@ class Product:
         self.price = price
         self.quantity = quantity
         self.active = True
+        self.promotion = None
         Product.total_items_count += 1
 
 
@@ -83,7 +84,7 @@ class Product:
         """
         Prints the product details.
         """
-        print(f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}")
+        print(f"{self.name}, Price: ${self.price}, Quantity: {self.quantity}, Promotion: {self.promotion}")
 
     def buy(self, quantity):
         """
@@ -96,6 +97,18 @@ class Product:
 
         return self.price * quantity
 
+    def get_promotion(self):
+        """
+        Returns the current promotion assigned to the product.
+        """
+        return self.promotion
+
+    def set_promotion(self, promotion):
+        """
+        Sets a new promotion for the product.
+        """
+        self.promotion = promotion.name
+
 
 class NonStockedProduct(Product):
     def __init__(self, name, price):
@@ -105,6 +118,7 @@ class NonStockedProduct(Product):
         """
         super().__init__(name, price, quantity=0)
         self.active = True
+
 
     def activate(self):
         """Bypasses the 0-quantity restriction to activate the product."""
@@ -125,7 +139,7 @@ class NonStockedProduct(Product):
 
     def show(self):
         """Prints the product details."""
-        print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited")
+        print(f"{self.name}, Price: ${self.price}, Quantity: Unlimited, Promotion: {self.promotion}")
 
 
 class LimitedProduct(Product):
@@ -150,4 +164,4 @@ class LimitedProduct(Product):
 
     def show(self):
         """Prints the product details."""
-        print(f"{self.name}, Price: ${self.price}, Limited to only {self.maximum} per order!")
+        print(f"{self.name}, Price: ${self.price}, Limited to only {self.maximum} per order!, Promotion: {self.promotion}")
