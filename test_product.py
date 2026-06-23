@@ -1,3 +1,6 @@
+"""
+Test module for the Product class and its variations.
+"""
 import pytest
 
 from products import Product
@@ -7,6 +10,9 @@ from products import Product
 
 
 def test_product_creation():
+    """
+    Tests the basic creation of a Product and its initial state.
+    """
     product = Product(name="MacBook Pro", price=1999.99, quantity=5)
 
     assert product.name == "MacBook Pro"
@@ -16,6 +22,9 @@ def test_product_creation():
 
 
 def test_product_invalid_details():
+    """
+    Tests that Product creation raises appropriate errors for invalid input.
+    """
     # name
     with pytest.raises(TypeError, match="Product name must be a string text."):
         Product(name=123, price=10.0, quantity=5)
@@ -34,6 +43,9 @@ def test_product_invalid_details():
 
 
 def test_product_inactive_when_quantity_is_zero():
+    """
+    Tests that a product cannot be activated if its quantity is zero.
+    """
     empty_prod = Product("Sold Out Item", 5.0, 0)
     # Init with active = True, so we must deactivate first to test activation
     empty_prod.deactivate()
@@ -43,6 +55,9 @@ def test_product_inactive_when_quantity_is_zero():
 
 
 def test_product_purchase():
+    """
+    Tests the basic purchase logic, including quantity reduction and total cost calculation.
+    """
     new_prod = Product("MacBook Air M2", 1000.0, 10)
     new_prod.buy(5)
     assert new_prod.quantity == 5
@@ -53,6 +68,9 @@ def test_product_purchase():
 
 
 def test_product_buy_too_much():
+    """
+    Tests that purchasing more than the available quantity raises a ValueError.
+    """
     new_prod = Product("MacBook Air M2", 1000.0, 10)
     with pytest.raises(ValueError, match="Not enough quantity of MacBook Air M2 in stock."):
         new_prod.buy(11)

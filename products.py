@@ -1,7 +1,6 @@
 """
 This module defines the Product class, which represents a product in the store.
 """
-import promotions
 
 class Product:
     """
@@ -114,6 +113,9 @@ class Product:
 
 
 class NonStockedProduct(Product):
+    """
+    Represents a product that is not stocked (e.g., digital licenses).
+    """
     def __init__(self, name, price):
         """
         Initializes a new NonStockProduct.
@@ -149,6 +151,9 @@ class NonStockedProduct(Product):
 
 
 class LimitedProduct(Product):
+    """
+    Represents a product with a limited purchase quantity per order.
+    """
     def __init__(self, name, price, quantity, maximum):
         """
         Initializes a new LimitedProduct.
